@@ -1,11 +1,12 @@
 import collections
 import itertools
 import unittest
+
 from xorhash import xor_chain, byte_to_bin
+from xorhashobj import hasher
 
 class HashTest(unittest.TestCase):
-    def test_xor_chain(self):
-        for input, noargs, keyT, len6, keyTlen3 in (
+    test_strings = (
         ("11000110", "01000010", "10111101", "010000", "101"),
         ("11010100", "00110010", "11001101", "001100", "110"),
         ("01101111", "10100100", "01011011", "101001", "010"),
@@ -15,11 +16,33 @@ class HashTest(unittest.TestCase):
         ("11001100", "00100010", "11011101", "001000", "110"),
         ("01000001", "11111100", "00000011", "111111", "000"),
         ("00111000", "00010111", "11101000", "000101", "111"),
-        ("10110101", "11001001", "00110110", "110010", "001")):
-            self.assertEquals(xor_chain(input), noargs)
-            self.assertEquals(xor_chain(input, key=True), keyT)
-            self.assertEquals(xor_chain(input, length=6), len6)
-            self.assertEquals(xor_chain(input, key=True, length=3), keyTlen3)
+        ("10110101", "11001001", "00110110", "110010", "001"))
+
+    def test_xor_chain(self):
+        for bytestr, noargs, keyT, len6, keyTlen3 in HashTest.test_strings:
+            self.assertEquals(xor_chain(bytestr), noargs)
+            self.assertEquals(xor_chain(bytestr, key=True), keyT)
+            self.assertEquals(xor_chain(bytestr, length=6), len6)
+            self.assertEquals(xor_chain(bytestr, key=True, length=3), keyTlen3)
+
+    def test_hasher(self):
+        for bytestr, _, keyT, _, _, in HashTest.test_strings:
+            x = hasher(bytestr, True, True, 8)
+            i=0
+            result = ""
+            while (x.step()):
+                i+=1
+                result += str(int(x.output()))
+            self.assertEquals(result, keyT)
+
+            x.reset()
+
+            i=0
+            result = ""
+            while (x.step()):
+                i+=1
+                result += str(int(x.output()))
+            self.assertEquals(result, keyT, "Hasher failed after reset")
 
     def test_hash_collisions(self):
         keyvals = {}

@@ -1,5 +1,7 @@
+import collections
+import itertools
 import unittest
-from xorhash import xor_chain
+from xorhash import xor_chain, byte_to_bin
 
 class HashTest(unittest.TestCase):
     def test_xor_chain(self):
@@ -19,6 +21,20 @@ class HashTest(unittest.TestCase):
             self.assertEquals(xor_chain(input, len=6), len6)
             self.assertEquals(xor_chain(input, key=True, len=3), keyTlen3)
 
+    def test_hash_collisions(self):
+        keyvals = {}
+        for b, d in itertools.product([True, False], [True, False]):
+            for i in range(255):
+                bstr = byte_to_bin(i)
+                keyvals[bstr] = xor_chain(bstr, b, d)
+            c = collections.Counter(keyvals.values())
+            duplicates = [i for i in c if c[i]>1]
+            self.assertEquals(0, len(duplicates),
+                              ("duplicates found: {0}."
+                              "# originals: {1}, # duplicates {2}").format(
+                                  duplicates,
+                                  len(duplicates),
+                                  len(keyvals.values())))
 
 if __name__ == "__main__":
     import unittest

@@ -9,8 +9,6 @@
 #
 
 import random
-import collections
-
 
 # Run an xor chain on a given binary string with a given boolean key
 # You can specify # of bits and direction in which to XOR the bitstring
@@ -35,24 +33,3 @@ def byte_to_bin(rbyte=-1):
 	# format as binary string for output
 	rbyte_str = "{0:08b}".format(rbyte)
 	return rbyte_str
-
-
-# make sure function is 1:1 for all possible bytes
-def check():
-	keyvals = {}
-	for b in [False, True]:
-		for d in [False, True]:
-			#print("Testing for key=" + str(b) + "\n")
-			for i in range(255):
-				bstr = byte_to_bin(i)
-				keyvals[bstr] = xor_chain(bstr, b, d)
-			c = collections.Counter(keyvals.values())
-			#print(keyvals)
-			duplicates = [i for i in c if c[i]>1]
-			numduplicates = len(duplicates)
-			if (numduplicates):
-				print("DUPLICATES FOUND: " + str(duplicates))
-			else:
-				print("hash works for all bytes with key="+str(b)+" with right to left="+str(d))
-			numoriginals = len(keyvals.values())
-			print("(number of originals: " + str(numoriginals) + " number of duplicates: " + str(numduplicates) + ")\n")	

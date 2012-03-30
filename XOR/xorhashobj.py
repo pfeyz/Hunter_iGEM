@@ -13,6 +13,8 @@
 import random
 import collections
 
+class IncompleteHashError(Exception):
+	pass
 
 # xor hash object for use in simulation
 class hasher:
@@ -42,15 +44,14 @@ class hasher:
 		if self.position == self.len:
 			return self._hash
 		else:
-			print("Hash not fully computed!")
-			return -1
+			raise IncompleteHashError()
 	def reset(self):
 		self.position = 0
 		del self._hash[:]
 		self.key_new = self.key_orig
-	def key(self, newkey=-1):
-		if (newkey != -1):
+	def key(self, newkey=None):
+		if newkey is not None:
 			self.key_orig = newkey
 		return self.key_orig
-	
+
 # /end xor hash object

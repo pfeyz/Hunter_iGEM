@@ -3,7 +3,7 @@ import itertools
 import unittest
 
 from xorhash import xor_chain, byte_to_bin
-from xorhashobj import hasher
+from xorhashobj import hasher, IncompleteHashError
 
 class HashTest(unittest.TestCase):
 
@@ -49,6 +49,11 @@ class HashTest(unittest.TestCase):
                 result += str(int(x.output()))
             self.assertEquals(result, keyT, "Hasher failed after reset")
             self.assertEquals("".join(x.hash), keyT, "Hasher failed after reset")
+
+            x.reset()
+            for i in range(8):
+                self.assertRaises(IncompleteHashError, lambda: x.hash)
+                x.step()
 
     def test_hash_collisions(self):
         keyvals = {}

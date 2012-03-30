@@ -64,7 +64,7 @@ xoffset=width/2
 reset=True # reset the plate
 
 # create hasher object with random byte
-bstr = byte_to_bin(-1)
+bstr = byte_to_bin()
 bstrlist = list(bstr)
 xo = xorhashobj.hasher(bstr, True, False, 8)
 

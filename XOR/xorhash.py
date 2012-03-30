@@ -22,9 +22,9 @@ def xor_chain(abyte="00000000", key=False, right2left=True, length=8):
 	return "".join(xhash)
 
 # convert byte (int from 0..255) to binary string
-def byte_to_bin(rbyte=-1):
+def byte_to_bin(rbyte=None):
 	# Generate random byte
-	if (rbyte==-1):
+	if rbyte is None:
 		rbyte = random.randint(0,255)
 	# format as binary string for output
 	rbyte_str = "{0:08b}".format(rbyte)

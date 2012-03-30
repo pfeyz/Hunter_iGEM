@@ -12,18 +12,14 @@ import random
 
 # Run an xor chain on a given binary string with a given boolean key
 # You can specify # of bits and direction in which to XOR the bitstring
-def xor_chain(abyte="00000000", key=False, right2left=True, len=8):
-	bytelist = list(abyte[::-1]) if (right2left) else list(abyte)
-	hash = list()
-	for i in range(len):
-		#print(bytelist[i])
-		bit = bool(int(bytelist[i]))
-		#print("bit: " + str(bit))
-		key = bit ^ key
-		#print("key: " + str(key))
-		hash.append(str(int(key)))
-	#print("\n")
-	return "".join(hash)
+def xor_chain(abyte="00000000", key=False, right2left=True, length=8):
+	if right2left:
+		abyte = abyte[::-1]
+	xhash = list()
+	for bit, _ in zip(abyte, range(length)):
+		key = int(bit) ^ key
+		xhash.append(str(key))
+	return "".join(xhash)
 
 # convert byte (int from 0..255) to binary string
 def byte_to_bin(rbyte=-1):

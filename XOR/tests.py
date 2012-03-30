@@ -18,8 +18,8 @@ class HashTest(unittest.TestCase):
         ("10110101", "11001001", "00110110", "110010", "001")):
             self.assertEquals(xor_chain(input), noargs)
             self.assertEquals(xor_chain(input, key=True), keyT)
-            self.assertEquals(xor_chain(input, len=6), len6)
-            self.assertEquals(xor_chain(input, key=True, len=3), keyTlen3)
+            self.assertEquals(xor_chain(input, length=6), len6)
+            self.assertEquals(xor_chain(input, key=True, length=3), keyTlen3)
 
     def test_hash_collisions(self):
         keyvals = {}

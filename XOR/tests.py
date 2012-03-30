@@ -38,6 +38,7 @@ class HashTest(unittest.TestCase):
                 i+=1
                 result += str(int(x.output()))
             self.assertEquals(result, keyT)
+            self.assertEquals("".join(x.hash), keyT)
 
             x.reset()
 
@@ -47,6 +48,7 @@ class HashTest(unittest.TestCase):
                 i+=1
                 result += str(int(x.output()))
             self.assertEquals(result, keyT, "Hasher failed after reset")
+            self.assertEquals("".join(x.hash), keyT, "Hasher failed after reset")
 
     def test_hash_collisions(self):
         keyvals = {}

@@ -23,29 +23,30 @@ class hasher:
 		self.r2l = right2left
 		self.len = len
 		self.position = 0
-		self.hash = []
+		self._hash = []
 	def step(self):
 		#print("POSITION = " + str(self.position))
 		if (self.position < self.len):
 			bit = bool(int(self.bytelist[self.position]))
 			self.key_new = bit ^ self.key_new
-			self.hash.append(str(int(self.key_new)))
+			self._hash.append(str(int(self.key_new)))
 			self.position += 1
 			return True
 		else:
 			return False
 	def output(self):
 		return self.key_new
-	
+
+	@property
 	def hash(self):
-		if (self.position == (len-1)):
-			return self.hash
+		if self.position == self.len:
+			return self._hash
 		else:
 			print("Hash not fully computed!")
 			return -1
 	def reset(self):
 		self.position = 0
-		del self.hash[:]	
+		del self._hash[:]
 		self.key_new = self.key_orig
 	def key(self, newkey=-1):
 		if (newkey != -1):

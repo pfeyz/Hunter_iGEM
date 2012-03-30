@@ -6,6 +6,10 @@ from xorhash import xor_chain, byte_to_bin
 from xorhashobj import hasher
 
 class HashTest(unittest.TestCase):
+
+    # test_strings tuple format:
+    # (input bytestring, output with no args, output with key=True,
+    #  output with len=6, output with key=True and len=3)
     test_strings = (
         ("11000110", "01000010", "10111101", "010000", "101"),
         ("11010100", "00110010", "11001101", "001100", "110"),
